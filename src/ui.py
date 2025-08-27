@@ -1,4 +1,5 @@
 from src.queries import add_student, list_students, find_student_by_document, delete_stundent
+from src.validation import valid_date
 def menu():
     while True:
         print("\n📚 MINI SIGA - Menú Principal")
@@ -15,7 +16,11 @@ def menu():
             name = input("Ingrese su nombre: ")
             surname = input("Ingrese su apellido: ")
             email = input("Ingrese su correo: ")
-            birthdate = input("Ingrese su fecha de nacimiento (YYYY-MM-DD): ")
+            
+            while True:
+                birthdate = input("Ingrese su fecha de nacimiento (YYYY-MM-DD): ")
+                if valid_date(birthdate):
+                    break
             add_student(document,name,surname,email,birthdate)
         elif option == 2:
             list_students()
