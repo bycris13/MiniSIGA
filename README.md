@@ -16,12 +16,14 @@ MiniSIGA es una aplicación de consola desarrollada en Python que permite gestio
 ---
 
 ## 📦 Estructura del proyecto
+```plaintext
 src/
 ├── database.py     # Conexión a SQLite y creación de tablas
 ├── main.py         # Punto de entrada del sistema y ejecución del menú
 ├── models.py       # Clases: Student, Course, Enrollment
 ├── queries.py      # Funciones CRUD para estudiantes
 ├── ui.py           # Menú interactivo por consola
+```
 ---
 
 ## 🐍 Preparar entorno virtual
@@ -30,20 +32,3 @@ Antes de ejecutar el proyecto, crea y activa un entorno virtual:
 
 ```bash
 python -m venv env
-
-✅ Funcionalidades implementadas
-Estudiantes
-- 💾 Registrar estudiante
-- 🧾 Listar estudiantes
-- 🔍 Buscar estudiante por documento
-- 🗑️ Eliminar estudiante por ID
-
-🛠️ Tecnologías utilizadas
-- Python 3
-- SQLite (persistencia de datos)
-- Estructura modular por carpetas
-- Menú interactivo en consola
-
-👨‍💻 Autor
-bycris13
-
