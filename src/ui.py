@@ -1,18 +1,27 @@
 from src.queries import add_student, list_students, find_student_by_document, delete_stundent
-from src.validation import valid_date
+from src.validation import valid_date, valid_document, document_exists
 def menu():
     while True:
         print("\n📚 MINI SIGA - Menú Principal")
         print("1. 💾 Registrar estudiante")
         print("2. 🧾 Listar Estudiantes")
-        print("3. 🔍 Buscar esrudiante por documento")
-        print("4. 🗑️ Eliminar estudiante por su ID")
+        print("3. 🔍 Buscar estudiante por documento")
+        print("4. 🗑️  Eliminar estudiante por su ID")
         print("0. Salir")
 
         option = int(input("Ingrese una opción: "))
 
         if option == 1:
-            document = input("Ingrese numero de documento: ")
+            while True:
+                document = input("Ingrese numero de documento: ")
+                if not valid_document(document):
+                    continue
+                if document_exists(document):
+                    print("❌ El documento ya existe")
+                else:
+                    break
+
+
             name = input("Ingrese su nombre: ")
             surname = input("Ingrese su apellido: ")
             email = input("Ingrese su correo: ")

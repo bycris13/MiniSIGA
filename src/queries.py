@@ -25,7 +25,7 @@ def list_students():
 
     print("📋 Lista de estudiantes:")
     for row in rows:
-        print(f"ID: {row[0]}, Documento: {row[1]}, Nombre: {row[2]} {row[3]}, Email: {row[4]}, Fecha de Nacimiento: {row[5]}")
+        print(f"ID: {row[0]}, Documento: {row[1]}, Nombre: {row[2]} Apellido {row[3]}, Email: {row[4]}, Fecha de Nacimiento: {row[5]}")
 
 def find_student_by_document(document):
     try:
@@ -35,7 +35,7 @@ def find_student_by_document(document):
         rows = cursor.fetchall()
         # Lista de la tabla students
         for row in rows:
-            print(f"Id: {row[0]} Documento: {row[1]} Nombre: {row[2]} Apellido {row[3]} Email: {row[4]} Fecha de Nacimiento: {row[5]}")    
+            print(f" ✅ Estudiante Encontrado! \n Id: {row[0]} Documento: {row[1]} Nombre: {row[2]} Apellido {row[3]} Email: {row[4]} Fecha de Nacimiento: {row[5]}")    
         if not rows:
             print(f"No existe estudiante con ese documento: {document}")
     except Exception as err:
