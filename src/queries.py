@@ -25,7 +25,7 @@ def list_students():
 
     print("📋 Lista de estudiantes:")
     for row in rows:
-        print(f"ID: {row[0]}, Documento: {row[1]}, Nombre: {row[2]} Apellido {row[3]}, Email: {row[4]}, Fecha de Nacimiento: {row[5]}")
+        print(f"ID: {row[0]}, Documento: {row[1]}, Nombre: {row[2]} Apellido: {row[3]}, Email: {row[4]}, Fecha de Nacimiento: {row[5]}")
 
 def find_student_by_document(document):
     try:
@@ -40,6 +40,18 @@ def find_student_by_document(document):
             print(f"No existe estudiante con ese documento: {document}")
     except Exception as err:
         print(f"❌ Ocurrio un error al bucar el estudiante por el documento: {err}")
+    finally:
+        conn.close()
+
+def update_student(student_id,document, name, surname, email, birthdate):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE students SET document = ?, name = ?, surname = ?, email = ?,birthdate = ?  WHERE student_id = ? ", (document, name, surname, email, birthdate, student_id))
+        conn.commit()
+        print("✅ Estudiante actualizado correctamente.")
+    except Exception as err:
+          print(f"❌ Error al actualizar estudiante: {err}")
     finally:
         conn.close()
 

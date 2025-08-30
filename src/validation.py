@@ -20,7 +20,18 @@ def valid_document(document):
         print("❌ El documento debe contener 10 digitos")
         return False
     return True
-
+def student_id_exists(student_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM students WHERE student_id = ?", (student_id,))
+        result = cursor.fetchone()
+        return result is not None
+    except Exception as err:
+        print(f"❌ Error al verificar ID {err}")
+        return False
+    finally:
+        conn.close()
 #  Validada el formato de la fecha
 def valid_date(date_str):
     try:

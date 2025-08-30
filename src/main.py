@@ -1,2 +1,2 @@
-from src.ui import menu
+from src.ui.ui import menu
 menu()
