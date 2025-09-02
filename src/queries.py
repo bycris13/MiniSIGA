@@ -1,5 +1,6 @@
 from src.database import get_connection
 
+# Colsultas de la tabla students
 def add_student(document, name, surname, email, birthdate):
     try:
         conn = get_connection()
@@ -64,5 +65,62 @@ def delete_stundent(student_id):
         print("✅ Estudiante eliminado correctamente")
     except Exception as err:
         print(f"❌ Errror al eliminar estudiante: {err}")
+    finally:
+        conn.close()
+
+# Colsultas de la tabla courses
+def add_course(name, description, credits):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO courses (name, description, credits) VALUES (?, ?, ?)", (name, description, credits))
+        conn.commit()
+        print("✅ Curso agregado exitosamente")
+    except Exception as err:
+        print(f"❌ Error al guardar el curso {err}")
+    finally:
+        conn.close()
+
+def list_course():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM courses")
+    rows = cursor.fetchall()
+    cursor.close()
+    print("📋 Lista de cursos:")
+    for row in rows:
+        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Descripcion: {row[2]} Creditos {row[3]}")
+
+def find_course_by_id(course_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM courses WHERE course_id = ?",(course_id,))
+    rows = cursor.fetchall()
+    cursor.close()
+    print('✅ Curso encontrado')
+    for row in rows:
+        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Descripcion: {row[2]} Creditos {row[3]}")
+    
+def edit_course(course_id, name, description, credits):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE courses SET name = ?, description = ?, credits = ? WHERE course_id = ?", (name, description, credits, course_id))
+        conn.commit()
+        print("✅ Estudiante actualizado corectamente")
+    except Exception as err:
+        print(f"❌ No se pudo actualizar correctamente {err}")
+    finally:
+        conn.close()
+
+def delete_course(course_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM courses WHERE course_id = ? ", (course_id,))
+        conn.commit()
+        print("✅ Curso eliminado exitosamente")
+    except Exception as err:
+        print(f"❌ Error al eliminar el cursor {err}")
     finally:
         conn.close()
