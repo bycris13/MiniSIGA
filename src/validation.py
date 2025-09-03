@@ -58,3 +58,11 @@ def course_id_exists(course_id):
     result = cursor.fetchone()
     conn.close()
     return result is not None
+
+def enrollment_exists(student_id, course_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM enrollments  WHERE student_id = ? AND course_id = ?", (student_id, course_id))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None

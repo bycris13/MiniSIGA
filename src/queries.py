@@ -1,5 +1,6 @@
 from src.database import get_connection
-
+from src.validation import enrollment_exists, course_id_exists, student_id_exists
+from datetime import datetime
 # Colsultas de la tabla students
 def add_student(document, name, surname, email, birthdate):
     try:
@@ -121,6 +122,43 @@ def delete_course(course_id):
         conn.commit()
         print("✅ Curso eliminado exitosamente")
     except Exception as err:
-        print(f"❌ Error al eliminar el cursor {err}")
+        print(f"❌ Error al eliminar el curso: {err}")
     finally:
         conn.close()
+
+def add_enrollment(student_id, course_id):
+    date_enrollment = datetime.today().strftime("%Y-%m-%d")
+    if enrollment_exists(student_id, course_id):
+        print("❌ Ya existe esta matricula")
+        return
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO enrollments (student_id, course_id,  date_enrollment) VALUES (?, ?, ?)", (student_id, course_id,  date_enrollment))
+        conn.commit()
+        print("✅ Maricula registrada corectamente")
+    except Exception as err:
+        print(f"Error al registar matricula: {err}")
+    finally:
+        conn.close()
+
+def list_enrollments():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT 
+        e.enrollment_id,
+        s.name || ' ' || s.surname AS estudiante,
+        s.email AS correo,
+        c.name AS curso,
+        e.date_enrollment
+    FROM enrollments e
+    JOIN students s ON e.student_id = s.student_id
+    JOIN courses c ON e.course_id = c.course_id
+    """)
+    rows = cursor.fetchall()
+    conn.close() 
+    print("📋 Lista de matrículas:")
+    for row in rows:
+        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️   Correo: {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]}")
