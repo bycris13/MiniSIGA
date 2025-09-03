@@ -15,10 +15,10 @@ def menu_courses():
         if option == 1:
             try:
                 name = input("Ingresa el nombre del curso: ")
-                description = input("Ingresa la description del curso: ")
+                teacher = input("Ingresa el docente del curso: ")
                 credits = int(input("Creditos: "))      
                 if valid_credits(credits):
-                    add_course(name, description, credits)
+                    add_course(name, teacher, credits)
             except ValueError:
                 print("❌ Ocurrio un error al registrar.")
         elif option == 2:
@@ -35,9 +35,9 @@ def menu_courses():
                 print("❌ No existe ningún curso con ese ID.")
                 return
             name = input("Ingresa el nombre del curso: ")
-            description = input("Descripcion del curso: ")
+            teacher = input("Docente del curso: ")
             credits = int(input("Creditos: "))
             if valid_credits(credits):
-                edit_course(course_id, name, description, credits)
+                edit_course(course_id, name, teacher, credits)
         elif option == 0:
             break

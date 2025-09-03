@@ -24,7 +24,7 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS courses (
         course_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        description TEXT,
+        teacher TEXT NOT NULL,
         credits INTEGER
     );
     """)
@@ -34,6 +34,7 @@ def create_tables():
         enrollment_id INTEGER PRIMARY KEY AUTOINCREMENT,
         student_id INTEGER NOT NULL,
         course_id INTEGER NOT NULL,
+        grade REAL,
         date_enrollment TEXT,
         FOREIGN KEY (student_id) REFERENCES students(student_id),
         FOREIGN KEY (course_id) REFERENCES courses(course_id)

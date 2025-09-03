@@ -63,20 +63,23 @@ def delete_stundent(student_id):
         cursor = conn.cursor()
         cursor.execute(""" DELETE FROM students WHERE student_id = ? """, (student_id,) )
         conn.commit()
-        print("✅ Estudiante eliminado correctamente")
+        if cursor.rowcount == 0:  # no eliminó ninguna fila
+            print("❌ No se encontró estudiante con ese ID.")
+        else:
+            print("✅ Estudiante eliminado correctamente")
     except Exception as err:
         print(f"❌ Errror al eliminar estudiante: {err}")
     finally:
         conn.close()
 
 # Colsultas de la tabla courses
-def add_course(name, description, credits):
+def add_course(name, teacher, credits):
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO courses (name, description, credits) VALUES (?, ?, ?)", (name, description, credits))
+        cursor.execute("INSERT INTO courses (name, teacher, credits) VALUES (?, ?, ?)", (name, teacher, credits))
         conn.commit()
-        print("✅ Curso agregado exitosamente")
+        print("✅ Curso agregado exitosamente.")
     except Exception as err:
         print(f"❌ Error al guardar el curso {err}")
     finally:
@@ -90,7 +93,7 @@ def list_course():
     cursor.close()
     print("📋 Lista de cursos:")
     for row in rows:
-        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Descripcion: {row[2]} Creditos {row[3]}")
+        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Docente: {row[2]}, Creditos: {row[3]}")
 
 def find_course_by_id(course_id):
     conn = get_connection()
@@ -98,19 +101,22 @@ def find_course_by_id(course_id):
     cursor.execute("SELECT * FROM courses WHERE course_id = ?",(course_id,))
     rows = cursor.fetchall()
     cursor.close()
-    print('✅ Curso encontrado')
+    if not rows: # Aquí validamos si está vacío
+        print("❌ No se encontró curso con ese ID.")
+    else:
+        print('✅ Curso encontrado.')
     for row in rows:
-        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Descripcion: {row[2]} Creditos {row[3]}")
+        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Docente: {row[2]} Creditos {row[3]}")
     
-def edit_course(course_id, name, description, credits):
+def edit_course(course_id, name, teacher, credits):
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("UPDATE courses SET name = ?, description = ?, credits = ? WHERE course_id = ?", (name, description, credits, course_id))
+        cursor.execute("UPDATE courses SET name = ?, teacher = ?, credits = ? WHERE course_id = ?", (name, teacher, credits, course_id))
         conn.commit()
-        print("✅ Estudiante actualizado corectamente")
+        print("✅ Curso actualizado corectamente")
     except Exception as err:
-        print(f"❌ No se pudo actualizar correctamente {err}")
+        print(f"❌ No se pudo actualizar correctamente. {err}")
     finally:
         conn.close()
 
@@ -120,7 +126,10 @@ def delete_course(course_id):
         cursor = conn.cursor()
         cursor.execute("DELETE FROM courses WHERE course_id = ? ", (course_id,))
         conn.commit()
-        print("✅ Curso eliminado exitosamente")
+        if cursor.rowcount == 0:
+            print("❌ No se encontro el curso con ese ID")
+        else:
+            print("✅ Curso eliminado exitosamente")
     except Exception as err:
         print(f"❌ Error al eliminar el curso: {err}")
     finally:
@@ -162,3 +171,56 @@ def list_enrollments():
     print("📋 Lista de matrículas:")
     for row in rows:
         print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️   Correo: {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]}")
+
+def find_enrollments():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    print("🔎 Buscar matrícula:")
+    criterio = input("¿Desea buscar por estudiante (E) o curso (C)? ").strip().upper()
+
+    if criterio == "E":
+        name = input("Ingrese el nombre o apellido del estudiante: ")
+        cursor.execute("""
+        SELECT 
+            e.enrollment_id,
+            s.name || ' ' || s.surname AS estudiante,
+            s.email AS correo,
+            c.name AS curso,
+            e.date_enrollment
+        FROM enrollments e
+        JOIN students s ON e.student_id = s.student_id
+        JOIN courses c ON e.course_id = c.course_id
+        WHERE s.name LIKE ? OR s.surname LIKE ?
+        """, (f"%{name}%", f"%{name}%"))
+
+    elif criterio == "C":
+        course = input("Ingrese el nombre del curso: ")
+        cursor.execute("""
+        SELECT 
+            e.enrollment_id,
+            s.name || ' ' || s.surname AS estudiante,
+            s.email AS correo,
+            c.name AS curso,
+            e.date_enrollment
+        FROM enrollments e
+        JOIN students s ON e.student_id = s.student_id
+        JOIN courses c ON e.course_id = c.course_id
+        WHERE c.name LIKE ?
+        """, (f"%{course}%",))
+
+    else:
+        print("❌ Opción no válida.")
+        conn.close()
+        return
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        print("⚠️ No se encontraron matrículas.")
+        return
+
+    print("📋 Resultados de la búsqueda:")
+    for row in rows:
+        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️ {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]}")

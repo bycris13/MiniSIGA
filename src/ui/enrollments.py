@@ -1,4 +1,4 @@
-from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments
+from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments,find_enrollments
 def menu_enrollments():
     while True:
         print("\n📚 MINI SIGA - Menu Matriculas")
@@ -26,6 +26,8 @@ def menu_enrollments():
                 print("❌ Error al ingresar los datos.")
         elif option == 2:
             list_enrollments()
+        elif option == 3:
+            find_enrollments()
         elif option == 0:
             break
                 
