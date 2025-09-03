@@ -1,4 +1,4 @@
-from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments,find_enrollments
+from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments,find_enrollments,update_grade
 def menu_enrollments():
     while True:
         print("\n📚 MINI SIGA - Menu Matriculas")
@@ -28,6 +28,17 @@ def menu_enrollments():
             list_enrollments()
         elif option == 3:
             find_enrollments()
+        elif option == 4:  # 👈 NUEVO
+            try:
+                enrollment_id = int(input("Ingrese el ID de la matrícula: "))
+                grade = float(input("Ingrese la nota (0.0 - 5.0): "))
+                if grade < 0 or grade > 5:
+                    print("❌ La nota debe estar entre 0.0 y 5.0.")
+                    continue
+                update_grade(enrollment_id, grade)
+            except ValueError:
+                print("❌ Debe ingresar un número válido.")
+
         elif option == 0:
             break
                 

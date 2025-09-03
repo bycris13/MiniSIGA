@@ -161,7 +161,8 @@ def list_enrollments():
         s.name || ' ' || s.surname AS estudiante,
         s.email AS correo,
         c.name AS curso,
-        e.date_enrollment
+        e.date_enrollment,
+        e.grade
     FROM enrollments e
     JOIN students s ON e.student_id = s.student_id
     JOIN courses c ON e.course_id = c.course_id
@@ -170,7 +171,7 @@ def list_enrollments():
     conn.close() 
     print("📋 Lista de matrículas:")
     for row in rows:
-        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️   Correo: {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]}")
+        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️   Correo: {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]} | Nota: 🧮 {row[5]} ")
 
 def find_enrollments():
     conn = get_connection()
@@ -223,4 +224,24 @@ def find_enrollments():
 
     print("📋 Resultados de la búsqueda:")
     for row in rows:
-        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️ {row[2]} | 📚 Curso: {row[3]} | 📆 Fecha: {row[4]}")
+        print(f"ID: {row[0]} | 👤 Estudiante: {row[1]} | ✉️ {row[2]} | 📚 Curso: {row[3]} | | 📆 Fecha: {row[4]}")
+
+def update_grade(enrollment_id, grade):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE enrollments 
+            SET grade = ? 
+            WHERE enrollment_id = ?
+        """, (grade, enrollment_id))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            print("❌ No se encontró matrícula con ese ID.")
+        else:
+            print("✅ Nota registrada correctamente.")
+    except Exception as err:
+        print(f"❌ Error al registrar nota: {err}")
+    finally:
+        conn.close()
