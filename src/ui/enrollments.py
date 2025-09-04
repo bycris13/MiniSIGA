@@ -1,4 +1,4 @@
-from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments,find_enrollments,update_grade
+from src.queries import add_enrollment, student_id_exists, course_id_exists,list_enrollments,find_enrollments,update_grade,delete_enrollment
 def menu_enrollments():
     while True:
         print("\n📚 MINI SIGA - Menu Matriculas")
@@ -38,6 +38,15 @@ def menu_enrollments():
                 update_grade(enrollment_id, grade)
             except ValueError:
                 print("❌ Debe ingresar un número válido.")
+        elif option == 5:
+            try:
+                enrollment_id = int(input("🗑️ Ingrese el ID de la matrícula a eliminar: "))
+                if delete_enrollment(enrollment_id):
+                    print("✅ Matrícula eliminada correctamente")
+                else:
+                    print("❌ No se encontró matrícula con ese ID.")
+            except ValueError:
+                print("❌ Error: ID inválido.")
 
         elif option == 0:
             break

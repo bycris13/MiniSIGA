@@ -245,3 +245,19 @@ def update_grade(enrollment_id, grade):
         print(f"❌ Error al registrar nota: {err}")
     finally:
         conn.close()
+
+
+def delete_enrollment(enrollment_id: int) -> bool:
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM enrollments WHERE enrollment_id = ?", (enrollment_id,))
+        conn.commit()
+        if cursor.rowcount == 0:
+            return False  # No existía ese id
+        return True
+    except Exception as err:
+        print(f"❌ Error al eliminar matrícula: {err}")
+        return False
+    finally:
+        conn.close()
