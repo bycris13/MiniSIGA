@@ -1,6 +1,7 @@
 from src.database import get_connection
 from src.validation import enrollment_exists, course_id_exists, student_id_exists
 from datetime import datetime
+from src.persistence import save_to_csv, load_from_csv, export_to_json, STUDENTS_FILE
 # Colsultas de la tabla students
 def add_student(document, name, surname, email, birthdate):
     try:
@@ -12,6 +13,25 @@ def add_student(document, name, surname, email, birthdate):
         """, (document, name, surname, email, birthdate))
         conn.commit()
         print("✅ Estudiante agregado correctamente.")
+
+        # Exportar a CSV también
+        cursor.execute("SELECT * FROM students")
+        rows = cursor.fetchall()
+        students = [
+            {
+                "student_id": row[0],
+                "document": row[1],
+                "name": row[2],
+                "surname": row[3],
+                "email": row[4],
+                "birthdate": row[5]
+            }
+            for row in rows
+        ]
+        save_to_csv(STUDENTS_FILE, students,
+            ["student_id", "document", "name", "surname", "email", "birthdate"]
+        )
+
     except Exception as e:
         print(f"❌ Error al agregar estudiante: {e}")
     finally:

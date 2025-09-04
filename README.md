@@ -20,8 +20,10 @@ MiniSIGA es una aplicación de consola desarrollada en Python que permite gestio
 src/
 ├── database.py     # Conexión a SQLite y creación de tablas
 ├── ui
-│   ├── ui.py               # Menú interactivo por consola
+│   ├── courses_ui.py # Menú gestion de cursos
+│   └── enrollments.py      # Menú de gestión de matriculas y notas
 │   └── students_ui.py      # Menú de gestión de estudiantes
+│   └── ui.py        # Menú interactivo por consola
 ├── main.py         # Punto de entrada del sistema y ejecución del menú
 ├── models.py       # Clases: Student, Course, Enrollment
 ├── queries.py      # Funciones CRUD para estudiantes
