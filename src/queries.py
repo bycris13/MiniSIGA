@@ -120,10 +120,10 @@ def find_course_by_id(course_id):
     cursor.close()
     if not rows: # Aquí validamos si está vacío
         print("❌ No se encontró curso con ese ID.")
+        return []
     else:
         print('✅ Curso encontrado.')
-    for row in rows:
-        print(f"ID: {row[0]}, Nombre del curso: {row[1]}, Docente: {row[2]} Creditos {row[3]}")
+        return rows
     
 def edit_course(course_id, name, teacher, credits):
     try:

@@ -9,7 +9,6 @@ def document_exists(document):
     result = cursor.fetchone()
     conn.close()
     return result is not None
-    
 
 # Valida el documento
 def valid_document(document):
@@ -32,6 +31,7 @@ def student_id_exists(student_id):
         return False
     finally:
         conn.close()
+
 #  Validada el formato de la fecha
 def valid_date(date_str):
     try:
@@ -44,12 +44,14 @@ def valid_date(date_str):
     except ValueError:
         print("❌ Formato inválido. Usa YYYY-MM-DD.")
         return False
+    
 # Valida que solo sea numeros del 1 al 4
 def valid_credits(credits):
     if credits > 4 or credits < 0:
         print("❌ Los creditos deben estar en rango de 1 a 4")
         return False
     return True
+
 # Valida si el curso existe
 def course_id_exists(course_id):
     conn = get_connection()
