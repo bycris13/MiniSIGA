@@ -10,7 +10,7 @@ MiniSIGA es una aplicación de consola desarrollada en Python que permite gestio
 - Implementar operaciones CRUD con persistencia en SQLite.
 - Realizar consultas filtradas y búsquedas eficientes.
 - Manejar errores y validar entradas del usuario.
-- Diseñar un menú interactivo por consola.
+- Diseñar un menú interactivo grafico (Tikinter).
 - Preparar exportación a JSON y pruebas con `assert`.
 
 ---
