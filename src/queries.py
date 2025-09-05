@@ -55,13 +55,10 @@ def find_student_by_document(document):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM students WHERE document = ?", (document,))
         rows = cursor.fetchall()
-        # Lista de la tabla students
-        for row in rows:
-            print(f" ✅ Estudiante Encontrado! \n Id: {row[0]} Documento: {row[1]} Nombre: {row[2]} Apellido {row[3]} Email: {row[4]} Fecha de Nacimiento: {row[5]}")    
-        if not rows:
-            print(f"No existe estudiante con ese documento: {document}")
+        return rows   # 🔹 IMPORTANTE: devolver los resultados
     except Exception as err:
-        print(f"❌ Ocurrio un error al bucar el estudiante por el documento: {err}")
+        print(f"❌ Ocurrió un error al buscar el estudiante por el documento: {err}")
+        return []     # 🔹 Devuelve lista vacía si hay error
     finally:
         conn.close()
 
