@@ -263,7 +263,6 @@ def update_grade(enrollment_id, grade):
     finally:
         conn.close()
 
-
 def delete_enrollment(enrollment_id: int) -> bool:
     try:
         conn = get_connection()
