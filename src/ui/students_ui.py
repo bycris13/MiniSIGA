@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from src.queries import add_student, update_student, delete_stundent, find_student_by_document
 from src.validation import valid_document, document_exists, valid_date, student_id_exists
 from src.database import get_connection
+from src.persistence import sync_students_to_csv, export_all_to_json
 
 
 def menu_students():
@@ -62,6 +63,13 @@ def menu_students():
         for entry in entries.values():
             entry.delete(0, tk.END)
 
+    def sync_and_refresh():
+        """Sincroniza CSV y JSON tras cualquier operación"""
+        sync_students_to_csv()
+        export_all_to_json()
+        refresh_table()
+        clear_fields()
+
     def on_add():
         doc = entries["Documento:"].get().strip()
         name = entries["Nombre:"].get().strip()
@@ -85,10 +93,8 @@ def menu_students():
             messagebox.showerror("Error", "❌ La fecha de nacimiento no es válida.")
             return
 
-        # Si pasa las validaciones -> guardar
         add_student(doc, name, surname, email, birthdate)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_update():
         selected = tree.selection()
@@ -102,12 +108,10 @@ def menu_students():
         email = entries["Correo:"].get().strip()
         birthdate = entries["Nacimiento (YYYY-MM-DD):"].get().strip()
 
-        # --- Validación de campos vacíos ---
         if not all([doc, name, surname, email, birthdate]):
             messagebox.showerror("Error", "❌ Todos los campos son obligatorios.")
             return
 
-        # --- Validaciones específicas ---
         if not student_id_exists(sid):
             messagebox.showerror("Error", "❌ El ID del estudiante no existe.")
             return
@@ -119,8 +123,7 @@ def menu_students():
             return
 
         update_student(sid, doc, name, surname, email, birthdate)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_delete():
         selected = tree.selection()
@@ -129,11 +132,9 @@ def menu_students():
             return
         sid = tree.item(selected[0], "values")[0]
         delete_stundent(sid)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_row_select(event):
-        """Cargar datos de la fila seleccionada en los inputs"""
         selected = tree.selection()
         if selected:
             values = tree.item(selected[0], "values")
@@ -161,7 +162,6 @@ def menu_students():
 
         rows = find_student_by_document(doc)
 
-        # Limpiar tabla antes de mostrar resultados
         for r in tree.get_children():
             tree.delete(r)
 
@@ -175,7 +175,6 @@ def menu_students():
     tk.Button(frame_search, text="Mostrar todos", command=refresh_table).pack(side="left", padx=5)
 
     def go_back():
-        """Cerrar ventana y regresar al menú principal"""
         window.destroy()
 
     # --- Botones ---

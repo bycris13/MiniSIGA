@@ -1,0 +1,5 @@
+enrollment_id,student_id,student_name,course_id,course_name,date_enrollment,grade
+2,1,Cristian Arias,1,Programacion Web,2025-09-05,3.0
+3,2,Alejandro Gala,1,Programacion Web,2025-09-05,1.0
+4,2,Alejandro Gala,3,Moviles,2025-09-05,2.5
+5,1,Cristian Arias,3,Moviles,2025-09-20,

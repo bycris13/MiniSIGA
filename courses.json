@@ -1,0 +1,14 @@
+[
+    {
+        "course_id": "1",
+        "name": "Programacion Web",
+        "teacher": "Moure dev",
+        "credits": "4"
+    },
+    {
+        "course_id": "3",
+        "name": "Moviles",
+        "teacher": "Fernando",
+        "credits": "4"
+    }
+]

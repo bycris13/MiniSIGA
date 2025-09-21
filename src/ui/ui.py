@@ -1,4 +1,4 @@
-# src/ui/ui_tkinter.py
+# src/ui/ui.py
 import tkinter as tk
 from tkinter import messagebox
 

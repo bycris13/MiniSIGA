@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox
 from src.queries import add_course, list_course, find_course_by_id, edit_course, delete_course
 from src.validation import valid_credits, course_id_exists
 from src.database import get_connection
-
+from src.persistence import sync_courses_to_csv, export_all_to_json
 
 def menu_courses():
     window = tk.Toplevel()
@@ -61,6 +61,13 @@ def menu_courses():
         for entry in entries.values():
             entry.delete(0, tk.END)
 
+    def sync_and_refresh():
+        """Sincroniza CSV y JSON tras cualquier operación"""
+        sync_courses_to_csv()
+        export_all_to_json()
+        refresh_table()
+        clear_fields()
+
     def on_add():
         name = entries["Nombre:"].get().strip()
         teacher = entries["Docente:"].get().strip()
@@ -78,8 +85,7 @@ def menu_courses():
             return
 
         add_course(name, teacher, credits)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_update():
         selected = tree.selection()
@@ -107,8 +113,7 @@ def menu_courses():
             return
 
         edit_course(cid, name, teacher, credits)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_delete():
         selected = tree.selection()
@@ -117,8 +122,7 @@ def menu_courses():
             return
         cid = tree.item(selected[0], "values")[0]
         delete_course(cid)
-        refresh_table()
-        clear_fields()
+        sync_and_refresh()
 
     def on_row_select(event):
         selected = tree.selection()

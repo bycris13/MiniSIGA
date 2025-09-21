@@ -1,8 +1,11 @@
 from src.database import get_connection
 from src.validation import enrollment_exists, course_id_exists, student_id_exists
 from datetime import datetime
-from src.persistence import save_to_csv, load_from_csv, export_to_json, STUDENTS_FILE
-# Colsultas de la tabla students
+from src.persistence import save_to_csv, STUDENTS_FILE, COURSES_FILE
+
+# -------------------------------
+# Students
+# -------------------------------
 def add_student(document, name, surname, email, birthdate):
     try:
         conn = get_connection()
@@ -28,8 +31,10 @@ def add_student(document, name, surname, email, birthdate):
             }
             for row in rows
         ]
-        save_to_csv(STUDENTS_FILE, students,
-            ["student_id", "document", "name", "surname", "email", "birthdate"]
+        save_to_csv(
+            STUDENTS_FILE,
+            ["student_id", "document", "name", "surname", "email", "birthdate"],
+            students
         )
 
     except Exception as e:
@@ -89,18 +94,46 @@ def delete_stundent(student_id):
     finally:
         conn.close()
 
-# Colsultas de la tabla courses
+
+# -------------------------------
+# Courses
+# -------------------------------
 def add_course(name, teacher, credits):
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO courses (name, teacher, credits) VALUES (?, ?, ?)", (name, teacher, credits))
+        cursor.execute(
+            "INSERT INTO courses (name, teacher, credits) VALUES (?, ?, ?)",
+            (name, teacher, credits)
+        )
         conn.commit()
         print("✅ Curso agregado exitosamente.")
+
+        # Exportar a CSV también
+        cursor.execute("SELECT * FROM courses")
+        rows = cursor.fetchall()
+
+        courses = [
+            {
+                "course_id": row[0],
+                "name": row[1],
+                "teacher": row[2],
+                "credits": row[3]
+            }
+            for row in rows
+        ]
+
+        save_to_csv(
+            COURSES_FILE,
+            ["course_id", "name", "teacher", "credits"],  
+            courses
+        )
+
     except Exception as err:
         print(f"❌ Error al guardar el curso {err}")
     finally:
         conn.close()
+
 
 def list_course():
     conn = get_connection()
@@ -152,6 +185,9 @@ def delete_course(course_id):
     finally:
         conn.close()
 
+# -------------------------------
+# Enrollments
+# -------------------------------
 def add_enrollment(student_id, course_id):
     date_enrollment = datetime.today().strftime("%Y-%m-%d")
     if enrollment_exists(student_id, course_id):

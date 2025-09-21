@@ -1,0 +1,50 @@
+[
+    {
+        "student_id": "1",
+        "document": "1005478954",
+        "name": "Cristian",
+        "surname": "Arias",
+        "email": "cris@correo.com",
+        "birthdate": "2003-11-11"
+    },
+    {
+        "student_id": "2",
+        "document": "1554896325",
+        "name": "Alejandro",
+        "surname": "Gala",
+        "email": "alemar@correo.com",
+        "birthdate": "2001-05-12"
+    },
+    {
+        "student_id": "3",
+        "document": "1448654752",
+        "name": "Julian",
+        "surname": "Hernandez",
+        "email": "hernanju@correo.com",
+        "birthdate": "2005-05-12"
+    },
+    {
+        "student_id": "9",
+        "document": "1665849987",
+        "name": "Paola",
+        "surname": "Suarez",
+        "email": "paosu@gmail.com",
+        "birthdate": "2002-06-11"
+    },
+    {
+        "student_id": "10",
+        "document": "1558468754",
+        "name": "Carol",
+        "surname": "Hernandez",
+        "email": "caroh@gmail.com",
+        "birthdate": "2008-05-13"
+    },
+    {
+        "student_id": "13",
+        "document": "1558978423",
+        "name": "Oscar",
+        "surname": "Landinez",
+        "email": "oscarlan@gmail.com",
+        "birthdate": "2005-11-12"
+    }
+]

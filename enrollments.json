@@ -1,0 +1,38 @@
+[
+    {
+        "enrollment_id": "2",
+        "student_id": "1",
+        "student_name": "Cristian Arias",
+        "course_id": "1",
+        "course_name": "Programacion Web",
+        "date_enrollment": "2025-09-05",
+        "grade": "3.0"
+    },
+    {
+        "enrollment_id": "3",
+        "student_id": "2",
+        "student_name": "Alejandro Gala",
+        "course_id": "1",
+        "course_name": "Programacion Web",
+        "date_enrollment": "2025-09-05",
+        "grade": "1.0"
+    },
+    {
+        "enrollment_id": "4",
+        "student_id": "2",
+        "student_name": "Alejandro Gala",
+        "course_id": "3",
+        "course_name": "Moviles",
+        "date_enrollment": "2025-09-05",
+        "grade": "2.5"
+    },
+    {
+        "enrollment_id": "5",
+        "student_id": "1",
+        "student_name": "Cristian Arias",
+        "course_id": "3",
+        "course_name": "Moviles",
+        "date_enrollment": "2025-09-20",
+        "grade": ""
+    }
+]
