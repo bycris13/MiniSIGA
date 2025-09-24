@@ -1,10 +1,11 @@
 import pandas as pd
 from src.database import get_connection
 
-def analizar_notas():
+def analyze_grades():
+    """
+    Analiza las notas almacenadas en la BD y devuelve estadísticas clave.
+    """
     conn = get_connection()
-
-    # Cargar las matrículas con estudiante y curso
     query = """
     SELECT 
         s.student_id,
@@ -20,20 +21,16 @@ def analizar_notas():
     df = pd.read_sql(query, conn)
     conn.close()
 
-    print("\n📊 Primeras filas:")
-    print(df.head())
+    if df.empty:
+        return None
 
-    # Promedio de todas las notas
-    print("\n✅ Promedio general de notas:", df["grade"].mean())
+    resultados = {
+        "dataframe": df,
+        "promedio_general": df["grade"].mean(),
+        "min": df["grade"].min(),
+        "max": df["grade"].max(),
+        "promedio_curso": df.groupby("curso")["grade"].mean(),
+        "promedio_estudiante": df.groupby("estudiante")["grade"].mean()
+    }
 
-    # Nota mínima y máxima
-    print("\n🔽 Nota mínima:", df["grade"].min())
-    print("🔼 Nota máxima:", df["grade"].max())
-
-    # Promedio por curso
-    print("\n📚 Promedio por curso:")
-    print(df.groupby("curso")["grade"].mean())
-
-    # Promedio por estudiante
-    print("\n👨‍🎓 Promedio por estudiante:")
-    print(df.groupby("estudiante")["grade"].mean())
+    return resultados

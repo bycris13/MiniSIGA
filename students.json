@@ -46,5 +46,13 @@
         "surname": "Landinez",
         "email": "oscarlan@gmail.com",
         "birthdate": "2005-11-12"
+    },
+    {
+        "student_id": "14",
+        "document": "1556584624",
+        "name": "Andrea",
+        "surname": "Meneses",
+        "email": "Andrea@gmail.com",
+        "birthdate": "2002-03-9"
     }
 ]

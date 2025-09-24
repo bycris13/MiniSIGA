@@ -10,5 +10,11 @@
         "name": "Moviles",
         "teacher": "Fernando",
         "credits": "4"
+    },
+    {
+        "course_id": "14",
+        "name": "Fundamentos de poo",
+        "teacher": "Carlos",
+        "credits": "4"
     }
 ]

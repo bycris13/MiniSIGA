@@ -5,6 +5,7 @@ from tkinter import messagebox
 from src.ui.students_ui import menu_students
 from src.ui.courses_ui import menu_courses
 from src.ui.enrollments import menu_enrollments
+from src.ui.reports_ui import menu_reports
 
 def menu():
     root = tk.Tk()
@@ -24,6 +25,9 @@ def menu():
 
     btn_enrollments = tk.Button(root, text="📝 Matrículas", width=25, command=menu_enrollments)
     btn_enrollments.pack(pady=5)
+
+    btn_reports = tk.Button(root, text="📊 Reportes y Gráficos", width=25, command=menu_reports)
+    btn_reports.pack(pady=5)
 
     btn_exit = tk.Button(root, text="❌ Salir", width=25, command=root.quit)
     btn_exit.pack(pady=20)
